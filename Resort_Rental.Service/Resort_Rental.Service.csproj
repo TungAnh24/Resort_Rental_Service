@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Resort_Rental.Domain\Resort_Rental.Domain.csproj" />
+    <ProjectReference Include="..\Resort_Rental.Repository\Resort_Rental.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
