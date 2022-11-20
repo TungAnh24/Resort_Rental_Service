@@ -1,4 +1,6 @@
-﻿using Resort_Rental.Repository.RepositoryBase;
+﻿using AutoMapper;
+using Resort_Rental.Domain.Dto;
+using Resort_Rental.Repository.RepositoryBase;
 using ResortRental.Domain.Entity;
 using System;
 using System.Collections.Generic;
@@ -11,35 +13,50 @@ namespace Resort_Rental.Service.UserService
     public class UserService : IUserService
     {
         private readonly IBaseRepository<User, long> _repository;
+        private readonly IMapper _mapper;
 
-        public UserService(IBaseRepository<User, long> repository)
+        public UserService(IBaseRepository<User, long> repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<UserDTO>> GetUsers()
         {
             var users = await _repository.GetAll();
-            return users;
+            var usersDto = _mapper.Map<IEnumerable<UserDTO>>(users);
+            return usersDto;
         }
-        public async Task<User?> GetUser(long userId)
+        public async Task<UserDTO?> GetUser(long userId)
         {
             var user = await _repository.FindById(userId);
-            return user;
+            var userDto = _mapper.Map<UserDTO>(user);
+            return userDto;
         }
 
-        public async Task Create(User user)
+        public async Task Create(UserDTO userDTO)
         {
-            await _repository.InsertAsnyc(user);
+            var user = _mapper.Map<User>(userDTO);
+            var userName_exists = _repository.GetAll().Result.All<User>(u => u.Username.Contains(userDTO.Username) || u.Username == userDTO.Username);
+            if (!userName_exists)
+            {
+                throw new Exception("User name already exists");
+            }
+            else
+            {
+                await _repository.InsertAsnyc(user);
+            }
         }
 
-        public async Task Update(User user)
+        public async Task Update(UserDTO userDTO)
         {
+            var user = _mapper.Map<User>(userDTO);
             await _repository.UpdateAsnyc(user);
         }
 
-        public async Task Delete(User user)
+        public async Task Delete(UserDTO userDTO)
         {
+            var user = _mapper.Map<User>(userDTO);
             await _repository.DeleteAsnyc(user);
         }
     }

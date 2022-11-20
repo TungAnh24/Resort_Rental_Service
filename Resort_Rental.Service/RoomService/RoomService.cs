@@ -37,13 +37,13 @@ namespace Resort_Rental.Service.RoomService
         public async Task Create(RoomDto roomDto)
         {
             var room = _mapper.Map<Room>(roomDto);
-            var roomNumber = _repository.GetAll().Result.ToList()
+            var roomNumber_exists = _repository.GetAll().Result.ToList()
                 .Where(r => r.RoomNumber.Contains(room.RoomNumber) || r.RoomNumber == room.RoomNumber)
                 .FirstOrDefault();
-            if (roomNumber != null)
+            if (roomNumber_exists != null)
             {
                 throw new Exception("Room number already exists");
-            } 
+            }
             else
             {
                 await _repository.InsertAsnyc(room);

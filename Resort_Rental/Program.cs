@@ -21,7 +21,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 });
 
 // Register AutoMapper
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+/*builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());*/
+builder.Services.AddAutoMapper(typeof(RoomProfiles).Assembly);
+builder.Services.AddAutoMapper(typeof(UserProfiles).Assembly);
 /*builder.Services.AddAutoMapperProfile<RoomProfiles>();*/
 #region Register Dependency Injection
 
@@ -45,3 +47,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
