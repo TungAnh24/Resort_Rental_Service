@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Resort_Rental.Repository\Resort_Rental.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>
