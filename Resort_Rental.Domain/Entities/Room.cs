@@ -12,11 +12,11 @@ namespace ResortRental.Domain.Entities
     public class Room : BaseEntity<long>
     {
         [Column(TypeName = "varchar(50)")]
-        public string? RoomNumber { get; set; }
+        public string RoomNumber { get; set; } = string.Empty;
         public double Price { get; set; }
         public double Square { get; set; }
         [Column(TypeName = "varchar(255)")]
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
         public int ElectricCounter { get; set; }
         public int WaterCounter { get; set; }
         public int Status { get; set; }

@@ -15,7 +15,7 @@ namespace ResortRental.Domain.Entities
         public int LastCounter { get; set; }
         public int Quantity { get; set; }
         public double Subtotal { get; set; }
-        public virtual Bill? Bill { get; set; }
-        public virtual Service? Service { get; set; }
+        public virtual Bill Bill { get; set; } = new();
+        public virtual Service Service { get; set; } = new();
     }
 }

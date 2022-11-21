@@ -12,14 +12,14 @@ namespace ResortRental.Domain.Entities
     public class Guest : BaseEntity<long>
     {
         [Column(TypeName = "varchar(70)")]
-        public string? Fullname { get; set; }
+        public string Fullname { get; set; } = string.Empty;
         [Column(TypeName = "varchar(20)")]
-        public string? CitizenId { get; set; }
+        public string CitizenId { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
         [Column(TypeName = "varchar(20)")]
-        public string? Phone { get; set; }
+        public string Phone { get; set; } = string.Empty;
         [Column(TypeName = "varchar(255)")]
-        public string? Picture { get; set; }
+        public string Picture { get; set; } = string.Empty;
         public int Status { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace ResortRental.Domain.Entities
     public class ContractDetail : BaseEntity<long>
     {
         public int Role { get; set; }
-        public virtual Contract? Contract { get; set; }
-        public virtual Guest? Guest { get; set; }
+        public virtual Contract Contract { get; set; } = new();
+        public virtual Guest Guest { get; set; } = new();
     }
 }

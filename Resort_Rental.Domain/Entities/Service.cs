@@ -12,8 +12,8 @@ namespace ResortRental.Domain.Entities
     public class Service : BaseEntity<long>
     {
         [Column(TypeName = "varchar(100)")]
-        public string? ServiceName { get; set; }
+        public string ServiceName { get; set; } = string.Empty;
         public double Price { get; set; }
-        public string? Unit { get; set; }
+        public string Unit { get; set; } = string.Empty;
     }
 }
