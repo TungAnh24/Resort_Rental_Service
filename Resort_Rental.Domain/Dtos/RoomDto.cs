@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Resort_Rental.Domain.Dto
+namespace Resort_Rental.Domain.Dtos
 {
     public class RoomDto : BaseDto<long>
     {

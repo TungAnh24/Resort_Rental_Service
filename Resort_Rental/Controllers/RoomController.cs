@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Resort_Rental.Domain.Dto;
+using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Service.RoomService;
-using ResortRental.Domain.Entity;
+using ResortRental.Domain.Entities;
 
 namespace Resort_Rental.Controllers
 {

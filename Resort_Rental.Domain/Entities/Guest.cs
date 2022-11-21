@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResortRental.Domain.Entity
+namespace ResortRental.Domain.Entities
 {
     [Table("Guest")]
     public class Guest : BaseEntity<long>

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Resort_Rental.Domain.Dto;
+using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Service.UserService;
 
 namespace Resort_Rental.Controllers

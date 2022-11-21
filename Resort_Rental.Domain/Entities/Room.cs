@@ -6,18 +6,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResortRental.Domain.Entity
+namespace ResortRental.Domain.Entities
 {
-    [Table("Contract")]
-    public class Contract : BaseEntity<long>
+    [Table("Room")]
+    public class Room : BaseEntity<long>
     {
         [Column(TypeName = "varchar(50)")]
-        public string? ContractNumber { get; set; }
+        public string? RoomNumber { get; set; }
         public double Price { get; set; }
+        public double Square { get; set; }
         [Column(TypeName = "varchar(255)")]
-        public string? FileLocation { get; set; }
+        public string? Description { get; set; }
+        public int ElectricCounter { get; set; }
+        public int WaterCounter { get; set; }
         public int Status { get; set; }
-        public virtual Room? Room { get; set; }
-        public virtual User? User { get; set; }
     }
 }

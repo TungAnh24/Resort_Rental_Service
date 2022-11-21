@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using Resort_Rental.Domain.Dto;
-using ResortRental.Domain.Entity;
+using Resort_Rental.Domain.Dtos;
+using ResortRental.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
