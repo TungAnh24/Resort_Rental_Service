@@ -28,7 +28,7 @@ namespace ResortRental.Repository.DataContext
         public DbSet<Service>? Services { get; set; }
         public DbSet<User>? Users { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Room>().HasData(
                 new Room()
@@ -77,6 +77,6 @@ namespace ResortRental.Repository.DataContext
                     UpdatedByUser = null
                 }
             );
-        }
+        }*/
     }
 }
