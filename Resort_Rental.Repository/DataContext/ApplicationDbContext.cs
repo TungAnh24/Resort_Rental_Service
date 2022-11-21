@@ -19,14 +19,14 @@ namespace ResortRental.Repository.DataContext
             base.OnConfiguring(optionsBuilder);
         }
 
-        public DbSet<Bill>? Bills { get; set; }
-        public DbSet<BillDetail>? BillDetails { get; set; }
-        public DbSet<Contract>? Contracts { get; set; }
-        public DbSet<ContractDetail>? ContractDetails { get; set; }
-        public DbSet<Guest>? Guests { get; set; }
-        public DbSet<Room>? Rooms { get; set; }
-        public DbSet<Service>? Services { get; set; }
-        public DbSet<User>? Users { get; set; }
+        public DbSet<Bill> Bills { get; set; } = null!;
+        public DbSet<BillDetail> BillDetails { get; set; } = null!;
+        public DbSet<Contract> Contracts { get; set; } = null!;
+        public DbSet<ContractDetail> ContractDetails { get; set; } = null!;
+        public DbSet<Guest> Guests { get; set; } = null!;
+        public DbSet<Room> Rooms { get; set; } = null!;
+        public DbSet<Service> Services { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
         /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
