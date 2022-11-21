@@ -15,12 +15,17 @@ namespace ResortRental.Domain.Entities
         public string BillNumber { get; set; } = string.Empty;
         [Column(TypeName = "varchar(255)", Order = 6)]
         public string? Description { get; set; }
-        [Column(TypeName = "varchar(10)")]
-        public string? Period { get; set; }
+        [Column(TypeName = "varchar(10)", Order = 7)]
+        public string Period { get; set; } = string.Empty;
+        [Column(Order = 8)]
         public double RentalPrice { get; set; }
+        [Column(Order = 9)]
         public int Quantity { get; set; }
+        [Column(Order = 10)]
         public int Status { get; set; }
+        [Column(Order = 11)]
         public virtual Contract Contract { get; set; } = new();
-        public virtual User? User { get; set; } = new();
+        [Column(Order = 12)]
+        public virtual User User { get; set; } = new();
     }
 }
