@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,5 +17,6 @@ namespace Resort_Rental.Repository.RepositoryBase
         Task DeleteAll(IEnumerable<T> entities);
         Task<T?> FindById(Key id);
         Task<IEnumerable<T>> GetAll();
+        Task<bool> IsExist(Expression<Func<T, bool>> predicate);
     }
 }

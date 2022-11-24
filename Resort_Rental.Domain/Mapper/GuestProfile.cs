@@ -11,7 +11,7 @@ namespace Resort_Rental.Domain.Mapper
 {
     public class GuestProfile : Profile
     {
-        protected GuestProfile()
+        public GuestProfile()
         {
             CreateMap<Guest, GuestDto>();
             CreateMap<GuestDto, Guest>();

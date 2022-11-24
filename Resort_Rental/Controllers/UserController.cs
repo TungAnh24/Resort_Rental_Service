@@ -6,7 +6,7 @@ namespace Resort_Rental.Controllers
 {
     [ApiController]
     [Route("manager_resort")]
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
 

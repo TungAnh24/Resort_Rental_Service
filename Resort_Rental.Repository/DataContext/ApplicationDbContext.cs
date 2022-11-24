@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Resort_Rental.Domain.Entities;
 using ResortRental.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace ResortRental.Repository.DataContext
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<long>, long>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -26,7 +30,9 @@ namespace ResortRental.Repository.DataContext
         public DbSet<Guest> Guests { get; set; } = null!;
         public DbSet<Room> Rooms { get; set; } = null!;
         public DbSet<Service> Services { get; set; } = null!;
-        public DbSet<User> Users { get; set; } = null!;
+       
+        public DbSet<AppUser> AppUsers { get; set; } = null!;
+        public DbSet<AppRole> AppRoles { get; set; } = null!;
 
         /*protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -13,6 +13,6 @@ namespace Resort_Rental.Service.GuestService
         Task<GuestDto> GetGuest(long guestId);
         Task Create(GuestDto guestDto);
         Task Update(GuestDto guestDto);
-        Task Delete(GuestDto guestDto);
+        Task Delete(long guestId);
     }
 }

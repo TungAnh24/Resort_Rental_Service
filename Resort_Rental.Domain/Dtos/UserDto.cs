@@ -10,9 +10,9 @@ namespace Resort_Rental.Domain.Dtos
 {
     public class UserDTO : BaseDto<long>
     {
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-        public string? Phone { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
         public int Authority { get; set; }
     }
 }

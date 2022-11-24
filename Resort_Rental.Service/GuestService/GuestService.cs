@@ -39,7 +39,7 @@ namespace Resort_Rental.Service.GuestService
         {
 
             var guest = _mapper.Map<Guest>(guestDto);
-            var guestExists = _repository.GetAll().Result.All<Guest>(g => g.Fullname.Contains(guestDto.Fullname) || g.Fullname == guestDto.Fullname);
+            var guestExists = await _repository.IsExist(g => g.Fullname.Contains(guest.Fullname) || g.Fullname == guest.Fullname);
             if (guestExists)
             {
                 await _repository.InsertAsnyc(guest);
@@ -54,11 +54,14 @@ namespace Resort_Rental.Service.GuestService
             await _repository.UpdateAsnyc(guest);
         }
 
-        public async Task Delete(GuestDto guestDto)
+        public async Task Delete(long guestId)
         {
-            var guest = _mapper.Map<Guest>(guestDto);
-            guest.Status = 1;
-            await _repository.UpdateAsnyc(guest);
+            var guestExists = await _repository.FindById(guestId);
+            if (guestExists != null)
+            {
+                guestExists.IsDelete = 1;
+                await _repository.DeleteAsnyc(guestExists);
+            }
         }
         
     }

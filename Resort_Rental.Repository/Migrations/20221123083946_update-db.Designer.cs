@@ -11,8 +11,8 @@ using ResortRental.Repository.DataContext;
 namespace Resort_Rental.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221121035619_update_entities")]
-    partial class update_entities
+    [Migration("20221123083946_update-db")]
+    partial class updatedb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,224 @@ namespace Resort_Rental.Repository.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole<long>");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
+                {
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
+                {
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ResortRental.Domain.Entities.AppUser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("CreatedByUser")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)")
+                        .HasColumnOrder(3);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnOrder(1);
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LastUpdateTime")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnOrder(2);
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UpdatedByUser")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)")
+                        .HasColumnOrder(4);
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
 
             modelBuilder.Entity("ResortRental.Domain.Entities.Bill", b =>
                 {
@@ -48,6 +266,9 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("varchar(255)")
                         .HasColumnOrder(6);
+
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
@@ -109,6 +330,9 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("FirstCounter")
                         .HasColumnType("int")
                         .HasColumnOrder(6);
+
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
 
                     b.Property<int>("LastCounter")
                         .HasColumnType("int")
@@ -172,6 +396,9 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnOrder(7);
 
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
@@ -226,6 +453,9 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<long>("GuestId")
                         .HasColumnType("bigint");
 
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
@@ -277,6 +507,9 @@ namespace Resort_Rental.Repository.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(70)")
                         .HasColumnOrder(5);
+
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
@@ -331,6 +564,9 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(9);
 
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
@@ -382,6 +618,9 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
+                    b.Property<int>("IsDelete")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
@@ -410,53 +649,62 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("Service");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.User", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.AppRole", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(0);
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole<long>");
 
-                    b.Property<int>("Authority")
-                        .HasColumnType("int")
-                        .HasColumnOrder(8);
+                    b.HasDiscriminator().HasValue("AppRole");
+                });
 
-                    b.Property<string>("CreatedByUser")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
+                {
+                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Property<DateTime>("LastUpdateTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
+                {
+                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnOrder(6);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(7);
+                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
 
-                    b.Property<string>("UpdatedByUser")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(5);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
+                {
+                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ResortRental.Domain.Entities.Bill", b =>
@@ -467,7 +715,7 @@ namespace Resort_Rental.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ResortRental.Domain.Entities.User", "User")
+                    b.HasOne("ResortRental.Domain.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -505,7 +753,7 @@ namespace Resort_Rental.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ResortRental.Domain.Entities.User", "User")
+                    b.HasOne("ResortRental.Domain.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

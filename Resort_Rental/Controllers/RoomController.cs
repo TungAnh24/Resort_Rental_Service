@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Service.RoomService;
@@ -6,19 +7,19 @@ using ResortRental.Domain.Entities;
 
 namespace Resort_Rental.Controllers
 {
+    [Authorize]
     [ApiController]
-    public class RoomController : Controller
+    public class RoomController : ControllerBase
     {
         private readonly IRoomService _roomService;
-        private readonly IMapper _mapper;
-        public RoomController(IRoomService roomService, IMapper mapper)
+        public RoomController(IRoomService roomService)
         {
             _roomService = roomService;
-            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("resort_manager/rooms")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetRooms()
         {
             var rooms = await _roomService.GetRooms();
@@ -30,7 +31,7 @@ namespace Resort_Rental.Controllers
         public async Task<IActionResult> GetRooms(long roomId)
         {
             var room = await _roomService.GetRoom(roomId);
-            return room == null ? BadRequest() : Ok(room);
+            return room == null ? NoContent() : Ok(room);
         }
 
         [HttpPost]
@@ -56,7 +57,7 @@ namespace Resort_Rental.Controllers
             var existRoom = await _roomService.GetRoom(id);
             if (existRoom != null)
             {
-                await _roomService.Delete(existRoom);
+                await _roomService.Delete(id);
                 return Ok();
             } else
             {

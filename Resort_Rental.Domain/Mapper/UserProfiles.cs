@@ -13,8 +13,8 @@ namespace Resort_Rental.Domain.Mapper
     {
         public UserProfiles()
         {
-            CreateMap<User, UserDTO>();
-            CreateMap<UserDTO, User>();
+            CreateMap<AppUser, UserDTO>();
+            CreateMap<UserDTO, AppUser>();
         }
     }
 }

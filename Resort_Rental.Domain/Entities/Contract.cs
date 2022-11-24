@@ -22,6 +22,6 @@ namespace ResortRental.Domain.Entities
         [Column(Order = 9)]
         public virtual Room Room { get; set; } = new();
         [Column(Order = 10)]
-        public virtual User User { get; set; } = new(); 
+        public virtual AppUser User { get; set; } = new(); 
     }
 }

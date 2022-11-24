@@ -3,6 +3,7 @@ using ResortRental.Repository.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace Resort_Rental.Repository.RepositoryBase
 
         public async Task DeleteAsnyc(T entity)
         {
-            _dbSet.Remove(entity);
+            _dbSet.Update(entity);
             await _context.SaveChangesAsync();
         }
 
@@ -65,6 +66,11 @@ namespace Resort_Rental.Repository.RepositoryBase
         {
             var entities = await _dbSet.ToListAsync();
             return entities;
+        }
+
+        public async Task<bool> IsExist(Expression<Func<T, bool>> predicate)
+        {
+            return await _dbSet.AnyAsync(predicate);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Repository.RepositoryBase;
 using ResortRental.Domain.Entities;
@@ -14,11 +16,13 @@ namespace Resort_Rental.Service.RoomService
     {
         private readonly IBaseRepository<Room, long> _repository;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public RoomService(IBaseRepository<Room, long> repository, IMapper mapper)
+        public RoomService(IBaseRepository<Room, long> repository, IMapper mapper, IHttpContextAccessor httpContext)
         {
             _repository = repository;
             _mapper = mapper;
+            _httpContext = httpContext;
         }
 
         public async Task<IEnumerable<RoomDto>> GetRooms()
@@ -37,17 +41,16 @@ namespace Resort_Rental.Service.RoomService
         public async Task Create(RoomDto roomDto)
         {
             var room = _mapper.Map<Room>(roomDto);
-            var roomNumber_exists = _repository.GetAll().Result.ToList()
-                .Where(r => r.RoomNumber.Contains(room.RoomNumber) || r.RoomNumber == room.RoomNumber)
-                .FirstOrDefault();
-            if (roomNumber_exists != null)
-            {
-                throw new Exception("Room number already exists");
-            }
-            else
-            {
-                await _repository.InsertAsnyc(room);
-            }
+            var roomNumber_exists = await _repository.IsExist(r => r.RoomNumber.Contains(room.RoomNumber) || r.RoomNumber == room.RoomNumber);
+            /*if (_httpContext.HttpContext.User.Identity!.Name != null)
+            {*/
+                room.CreatedByUser = _httpContext.HttpContext.User.Identity.Name;
+                room.CreationTime = DateTime.Now;
+                room.UpdatedByUser = _httpContext.HttpContext.User.Identity.Name;
+                room.LastUpdateTime = DateTime.Now;
+            /*}*/
+            if (roomNumber_exists)throw new Exception("Room number already exists");
+            await _repository.InsertAsnyc(room);
         }
 
         public async Task Update(RoomDto roomDto)
@@ -56,10 +59,15 @@ namespace Resort_Rental.Service.RoomService
             await _repository.UpdateAsnyc(room);
         }
 
-        public async Task Delete(RoomDto roomDto)
+        public async Task Delete(long roomId)
         {
-            var room = _mapper.Map<Room>(roomDto);
-            await _repository.DeleteAsnyc(room);
+            var roomExists = await _repository.FindById(roomId);
+
+            if (roomExists != null)
+            {
+                roomExists.IsDelete = 1;
+                await _repository.DeleteAsnyc(roomExists);
+            }
         }
     }
 }

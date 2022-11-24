@@ -5,6 +5,7 @@ using ResortRental.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +13,10 @@ namespace Resort_Rental.Service.UserService
 {
     public class UserService : IUserService
     {
-        private readonly IBaseRepository<User, long> _repository;
+        private readonly IBaseRepository<AppUser, long> _repository;
         private readonly IMapper _mapper;
 
-        public UserService(IBaseRepository<User, long> repository, IMapper mapper)
+        public UserService(IBaseRepository<AppUser, long> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
@@ -36,28 +37,28 @@ namespace Resort_Rental.Service.UserService
 
         public async Task Create(UserDTO userDTO)
         {
-            var user = _mapper.Map<User>(userDTO);
-            var userName_exists = _repository.GetAll().Result.All<User>(u => u.Username.Contains(userDTO.Username) || u.Username == userDTO.Username);
-            if (!userName_exists)
-            {
-                throw new Exception("User name already exists");
-            }
-            else
-            {
-                await _repository.InsertAsnyc(user);
-            }
+            var user = _mapper.Map<AppUser>(userDTO);
+            var userName_exists = await _repository.IsExist(u => u.UserName== user.UserName || u.UserName.Contains(user.UserName));
+            if (userName_exists) throw new Exception("User name already exists");
+            await _repository.InsertAsnyc(user);
+            
         }
 
         public async Task Update(UserDTO userDTO)
         {
-            var user = _mapper.Map<User>(userDTO);
+            var user = _mapper.Map<AppUser>(userDTO);
             await _repository.UpdateAsnyc(user);
         }
 
         public async Task Delete(UserDTO userDTO)
         {
-            var user = _mapper.Map<User>(userDTO);
+            var user = _mapper.Map<AppUser>(userDTO);
             await _repository.DeleteAsnyc(user);
         }
+
+        /*public Task<bool> IsExist(Expression<Func<UserDTO, bool>> predicate)
+        {
+            predicate = u => u.Username.Contains()
+        }*/
     }
 }
