@@ -41,7 +41,7 @@ namespace Resort_Rental.Controllers
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
                 var authSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuaration.GetSection("Jwt:key").Value!));
+                    Encoding.UTF8.GetBytes(_configuaration.GetSection("Jwt:Key").Value!));
                 // Tạo Token
                 var token = new JwtSecurityToken(
                     // issuer: _configuaration["Jwt:Issuer"],
