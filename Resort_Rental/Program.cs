@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+/*using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -9,8 +9,151 @@ using Resort_Rental.Repository.RepositoryBase;
 using Resort_Rental.Service.GuestService;
 using Resort_Rental.Service.RoomService;
 using Resort_Rental.Service.UserService;
-using ResortRental.Domain.Entities;
-using ResortRental.Repository.DataContext;
+using Resort_Rental.Repository.DataContext;
+using Swashbuckle.AspNetCore.Filters;
+using System.Text;
+
+var builder = WebApplication.CreateBuilder(args);
+var config = builder.Configuration;
+var connectionStr = config.GetConnectionString("default");
+
+
+// Add services to the container.
+
+builder.Services.AddControllers()
+    .AddJsonOptions(option => 
+    option.JsonSerializerOptions.PropertyNamingPolicy = null);
+// Learn more about confiInvalidOperationException: Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbSet`1[ResortRental.Domain.Entity.Room]' while attempting to activate 'Resort_Rental.Repository.RepositoryBase.BaseRepository`2[ResortRental.Domain.Entity.Room,System.Int64]'.guring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("cedar01",
+        new OpenApiSecurityScheme()
+        {
+            Description = "Authorization header, using prefix \"bearer {token}\"",
+            In = ParameterLocation.Header,
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer"
+        });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+        {
+            Reference= new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "cedar01"
+            }
+        },
+        new string[] {}
+        }
+    });
+    options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
+builder.Services.AddDbContext<ApplicationDbContext>(option =>
+{
+    option.UseMySql(connectionStr, ServerVersion.AutoDetect(connectionStr));
+    option.EnableSensitiveDataLogging();
+});
+
+builder.Services.AddIdentity<AppUser, AppRole>()
+       .AddEntityFrameworkStores<ApplicationDbContext>()
+       .AddDefaultTokenProviders();
+
+//Register Jwt Authentication Service:
+
+*//*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = config["Jwt:Issuer"],
+            ValidAudience = config["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+        };
+    });*//*
+
+// Adding Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+
+// Adding Jwt Bearer
+.AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = config["Jwt:Issuer"],
+        ValidAudience = config["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+    };
+});
+builder.Services.AddAuthorization();
+builder.Services.AddHttpContextAccessor();
+
+// Register AutoMapper
+*//*builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());*//*
+builder.Services.AddAutoMapper(typeof(RoomProfiles).Assembly);
+builder.Services.AddAutoMapper(typeof(UserProfiles).Assembly);
+builder.Services.AddAutoMapper(typeof(GuestProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(ServiceProfile).Assembly);
+*//*builder.Services.AddAutoMapperProfile<RoomProfiles>();*//*
+
+#region Register Dependency Injection
+
+builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
+builder.Services.AddScoped<IRoomService, RoomService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IGuestService, GuestService>();
+
+#endregion
+
+var app = builder.Build();
+var virDir = config.GetSection("VirtuaDirectory").Value;
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+*/
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Resort_Rental.Domain.Entities;
+using Resort_Rental.Domain.Mapper;
+using Resort_Rental.Repository.DataContext;
+using Resort_Rental.Repository.RepositoryBase;
+using Resort_Rental.Service.GuestService;
+using Resort_Rental.Service.RoomService;
+using Resort_Rental.Service.UserService;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -24,38 +167,61 @@ var connectionStr = config.GetConnectionString("default");
 builder.Services.AddControllers();
 // Learn more about confiInvalidOperationException: Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbSet`1[ResortRental.Domain.Entity.Room]' while attempting to activate 'Resort_Rental.Repository.RepositoryBase.BaseRepository`2[ResortRental.Domain.Entity.Room,System.Int64]'.guring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => {
-    options.AddSecurityDefinition("cedar01",
-        new OpenApiSecurityScheme()
-        {
-            Description = "Authorization header, using prefix \"Bearer {token}\"",
-            In = ParameterLocation.Header,
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "Bearer"
-        });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
-builder.Services.AddDbContext<ApplicationDbContext>(option =>
-{
-    option.UseMySql(connectionStr, ServerVersion.AutoDetect(connectionStr));
-    option.EnableSensitiveDataLogging();
-});
+
+
 builder.Services.AddIdentity<AppUser, AppRole>()
        .AddEntityFrameworkStores<ApplicationDbContext>()
        .AddDefaultTokenProviders();
 
 //Register Jwt Authentication Service:
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(op => {
-    op.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication()
+       .AddJwtBearer(op => {
+           op.SaveToken = true;
+           op.TokenValidationParameters = new TokenValidationParameters
+           {
+               ValidateIssuer = false,
+               ValidateAudience = false,
+               IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"])),
+               ValidateIssuerSigningKey = true
+           };
+       });
+
+builder.Services.AddSwaggerGen(options => {
+
+    OpenApiSecurityScheme securityDefinition = new OpenApiSecurityScheme()
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = config["Jwt:Audience"],
-        ValidIssuer = config["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+        Name = "Bearer",
+        BearerFormat = "JWT",
+        Scheme = "bearer",
+        Description = "Specify the authorization token.",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
     };
+    options.AddSecurityDefinition("jwt_auth", securityDefinition);
+
+    // Make sure swagger UI requires a Bearer token specified
+    OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme()
+    {
+        Reference = new OpenApiReference()
+        {
+            Id = "jwt_auth",
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    OpenApiSecurityRequirement securityRequirements = new OpenApiSecurityRequirement()
+    {
+        {securityScheme, new string[] { }},
+    };
+    options.AddSecurityRequirement(securityRequirements);
+
+    //options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+builder.Services.AddDbContext<ApplicationDbContext>(option => {
+    option.UseMySql(connectionStr, ServerVersion.AutoDetect(connectionStr));
+    option.EnableSensitiveDataLogging();
+});
+
 
 builder.Services.AddHttpContextAccessor();
 
@@ -91,4 +257,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

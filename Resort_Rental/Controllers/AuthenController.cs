@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Resort_Rental.Domain.Dtos.jwtDtos;
-using ResortRental.Domain.Entities;
+using Resort_Rental.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace Resort_Rental.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("authen")]
     public class AuthenController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -30,6 +30,7 @@ namespace Resort_Rental.Controllers
             if (user != null && await _userManager.CheckPasswordAsync(user, loginDTO.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
+                var expires = DateTime.Now.AddDays(1);
                 var authClaims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.Name,user.UserName),
@@ -43,8 +44,9 @@ namespace Resort_Rental.Controllers
                     Encoding.UTF8.GetBytes(_configuaration["Jwt:Key"]));
                 // Tạo Token
                 var token = new JwtSecurityToken(
-                    issuer: _configuaration["Jwt:Issuer"],
-                    audience: _configuaration["Jwt:Audience"],
+                    /*issuer: _configuaration["Jwt:Issuer"],
+                    audience: _configuaration["Jwt:Audience"],*/
+                    expires: expires,
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );

@@ -1,4 +1,4 @@
-﻿using ResortRental.Domain;
+﻿using Resort_Rental.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Resort_Rental.Domain.Dtos
 {
-    public class UserDTO : BaseDto<long>
+    public class UserDto : BaseDto<long>
     {
         public string Username { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;

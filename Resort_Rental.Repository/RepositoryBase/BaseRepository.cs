@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ResortRental.Repository.DataContext;
+using Resort_Rental.Repository.DataContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;

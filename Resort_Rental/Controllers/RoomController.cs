@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Service.RoomService;
-using ResortRental.Domain.Entities;
+using Resort_Rental.Domain.Entities;
 
 namespace Resort_Rental.Controllers
 {
     [Authorize]
+    [Route("resort-manager/room")]
     [ApiController]
     public class RoomController : ControllerBase
     {
@@ -18,8 +19,7 @@ namespace Resort_Rental.Controllers
         }
 
         [HttpGet]
-        [Route("resort_manager/rooms")]
-        [AllowAnonymous]
+        [Route("get-all")]
         public async Task<IActionResult> GetRooms()
         {
             var rooms = await _roomService.GetRooms();
@@ -27,7 +27,7 @@ namespace Resort_Rental.Controllers
         }
 
         [HttpGet]
-        [Route("resort_manager/room/{roomId}")]
+        [Route("get-room/{roomId}")]
         public async Task<IActionResult> GetRooms(long roomId)
         {
             var room = await _roomService.GetRoom(roomId);
@@ -35,7 +35,7 @@ namespace Resort_Rental.Controllers
         }
 
         [HttpPost]
-        [Route("resort_manager/add_new")]
+        [Route("add-new")]
         public async Task<IActionResult> CreateRoom(RoomDto roomDto)
         {
             await _roomService.Create(roomDto);
@@ -43,7 +43,7 @@ namespace Resort_Rental.Controllers
         }
 
         [HttpPost]
-        [Route("resort_manager/update")]
+        [Route("update")]
         public async Task<IActionResult> UpdateRoom(RoomDto roomDto)
         {
             await _roomService.Update(roomDto);
@@ -51,7 +51,7 @@ namespace Resort_Rental.Controllers
         }
 
         [HttpDelete]
-        [Route("resort_manager/delete/{id}")]
+        [Route("delete/{id}")]
         public async Task<IActionResult> DeleteRoom(long id)
         {
             var existRoom = await _roomService.GetRoom(id);

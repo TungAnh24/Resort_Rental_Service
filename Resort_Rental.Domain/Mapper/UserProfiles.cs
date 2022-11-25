@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Resort_Rental.Domain.Dtos;
-using ResortRental.Domain.Entities;
+using Resort_Rental.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +13,8 @@ namespace Resort_Rental.Domain.Mapper
     {
         public UserProfiles()
         {
-            CreateMap<AppUser, UserDTO>();
-            CreateMap<UserDTO, AppUser>();
+            CreateMap<AppUser, UserDto>();
+            CreateMap<UserDto, AppUser>();
         }
     }
 }

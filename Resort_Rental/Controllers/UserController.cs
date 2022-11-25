@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Service.UserService;
 
 namespace Resort_Rental.Controllers
 {
+    [Authorize]
     [ApiController]
-    [Route("manager_resort")]
+    [Route("resort-manager/user")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -16,7 +18,7 @@ namespace Resort_Rental.Controllers
         }
 
         [HttpGet]
-        [Route("users")]
+        [Route("get-all")]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _userService.GetUsers();
@@ -24,7 +26,7 @@ namespace Resort_Rental.Controllers
         }
 
         [HttpGet]
-        [Route("user/{userId}")]
+        [Route("get-user/{userId}")]
         public async Task<IActionResult> GetUser(long userId) 
         {
             var user = await _userService.GetUser(userId);
@@ -33,7 +35,7 @@ namespace Resort_Rental.Controllers
 
         [HttpPost]
         [Route("add_new")]
-        public async Task<IActionResult> CreateUser(UserDTO userDTO)
+        public async Task<IActionResult> CreateUser(UserDto userDTO)
         {
             await _userService.Create(userDTO);
             return Ok();
@@ -41,20 +43,20 @@ namespace Resort_Rental.Controllers
 
         [HttpPost]
         [Route("update")]
-        public async Task<IActionResult> UpdateUser(UserDTO userDTO)
+        public async Task<IActionResult> UpdateUser(UserDto userDTO)
         {
             await _userService.Create(userDTO);
             return Ok();
         }
 
         [HttpDelete]
-        [Route("delete")]
+        [Route("delete/{userId}")]
         public async Task<IActionResult> DeleteUser(long userId)
         {
             var userDelete = await _userService.GetUser(userId);
             if (userDelete != null)
             {
-                await _userService.Delete(userDelete);
+                await _userService.Delete(userId);
             }
             return Ok();
         }

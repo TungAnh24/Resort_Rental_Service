@@ -36,11 +36,11 @@ namespace Resort_Rental.Repository.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
@@ -80,11 +80,11 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Fullname = table.Column<string>(type: "varchar(70)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -110,11 +110,11 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RoomNumber = table.Column<string>(type: "varchar(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -139,11 +139,11 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ServiceName = table.Column<string>(type: "varchar(100)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -285,11 +285,11 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContractNumber = table.Column<string>(type: "varchar(50)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -325,11 +325,11 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     BillNumber = table.Column<string>(type: "varchar(20)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -368,11 +368,11 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Role = table.Column<int>(type: "int", nullable: false),
                     ContractId = table.Column<long>(type: "bigint", nullable: false),
@@ -403,11 +403,11 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: false)
+                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ServicePrice = table.Column<double>(type: "double", nullable: false),
                     FirstCounter = table.Column<int>(type: "int", nullable: false),

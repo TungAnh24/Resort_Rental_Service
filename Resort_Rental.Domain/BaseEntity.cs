@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResortRental.Domain
+namespace Resort_Rental.Domain
 {
     public abstract class BaseEntity<T> where T : struct
     {

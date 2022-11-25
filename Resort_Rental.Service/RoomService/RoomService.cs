@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Repository.RepositoryBase;
-using ResortRental.Domain.Entities;
+using Resort_Rental.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,29 +43,38 @@ namespace Resort_Rental.Service.RoomService
         {
             var room = _mapper.Map<Room>(roomDto);
             var roomNumber_exists = await _repository.IsExist(r => r.RoomNumber.Contains(room.RoomNumber) || r.RoomNumber == room.RoomNumber);
-            /*if (_httpContext.HttpContext.User.Identity!.Name != null)
-            {*/
-                room.CreatedByUser = _httpContext.HttpContext.User.Identity.Name;
+            if (roomNumber_exists) throw new Exception("Room number already exists");
+            var username = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            if (_httpContext.HttpContext != null)
+            {
+                room.CreatedByUser = username;
                 room.CreationTime = DateTime.Now;
-                room.UpdatedByUser = _httpContext.HttpContext.User.Identity.Name;
-                room.LastUpdateTime = DateTime.Now;
-            /*}*/
-            if (roomNumber_exists)throw new Exception("Room number already exists");
+                room.Status = 0;
+                room.IsDelete = 0;
+            }
             await _repository.InsertAsnyc(room);
         }
 
         public async Task Update(RoomDto roomDto)
         {
             var room = _mapper.Map<Room>(roomDto);
+            var username = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            if (_httpContext.HttpContext != null)
+            {
+                room.UpdatedByUser = username;
+                room.LastUpdateTime= DateTime.Now;
+            }
             await _repository.UpdateAsnyc(room);
         }
 
         public async Task Delete(long roomId)
         {
             var roomExists = await _repository.FindById(roomId);
-
-            if (roomExists != null)
+            var username = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            if (_httpContext.HttpContext != null && roomExists != null)
             {
+                roomExists.UpdatedByUser = username;
+                roomExists.LastUpdateTime = DateTime.Now;
                 roomExists.IsDelete = 1;
                 await _repository.DeleteAsnyc(roomExists);
             }

@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using ResortRental.Repository.DataContext;
+using Resort_Rental.Repository.DataContext;
 
 #nullable disable
 
 namespace Resort_Rental.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221123083946_update-db")]
-    partial class updatedb
+    [Migration("20221124072630_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,39 +20,6 @@ namespace Resort_Rental.Repository.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<long>", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole<long>");
-                });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
@@ -153,6 +120,33 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.AppRole", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
             modelBuilder.Entity("ResortRental.Domain.Entities.AppUser", b =>
                 {
                     b.Property<long>("Id")
@@ -167,11 +161,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
@@ -185,7 +178,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -219,7 +212,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -255,11 +247,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
@@ -270,7 +261,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -292,7 +283,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(10);
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -319,11 +309,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
@@ -338,7 +327,7 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("int")
                         .HasColumnOrder(7);
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -357,7 +346,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("double");
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -383,11 +371,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(5);
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
@@ -399,7 +386,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -415,7 +402,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(8);
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -442,11 +428,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
@@ -456,7 +441,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -465,7 +450,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(5);
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -491,11 +475,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(6);
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
@@ -511,7 +494,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -530,7 +513,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(10);
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -547,11 +529,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(0);
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
@@ -567,7 +548,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -589,7 +570,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(11);
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -610,18 +590,17 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(0);
 
                     b.Property<string>("CreatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(3);
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
 
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("LastUpdateTime")
+                    b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(2);
 
@@ -640,7 +619,6 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnOrder(7);
 
                     b.Property<string>("UpdatedByUser")
-                        .IsRequired()
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
@@ -649,16 +627,9 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("Service");
                 });
 
-            modelBuilder.Entity("Resort_Rental.Domain.Entities.AppRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole<long>");
-
-                    b.HasDiscriminator().HasValue("AppRole");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
+                    b.HasOne("Resort_Rental.Domain.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -685,7 +656,7 @@ namespace Resort_Rental.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<long>", null)
+                    b.HasOne("Resort_Rental.Domain.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)

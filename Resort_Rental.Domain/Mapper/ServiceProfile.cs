@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Resort_Rental.Domain.Mapper
 {
-    public class GuestProfile : Profile
+    public class ServiceProfile : Profile
     {
-        public GuestProfile()
+        public ServiceProfile()
         {
-            CreateMap<Guest, GuestDto>();
-            CreateMap<GuestDto, Guest>();
+            CreateMap<Service, ServiceDto>();
+            CreateMap<ServiceDto, Service>();
         }
     }
 }

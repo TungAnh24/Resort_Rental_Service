@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResortRental.Domain.Entities
+namespace Resort_Rental.Domain.Entities
 {
     /*[Table("User")]*/
     public class AppUser : IdentityUser<long>

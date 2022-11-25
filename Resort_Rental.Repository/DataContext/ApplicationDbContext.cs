@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Resort_Rental.Domain.Entities;
-using ResortRental.Domain.Entities;
+using Resort_Rental.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResortRental.Repository.DataContext
+namespace Resort_Rental.Repository.DataContext
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser, IdentityRole<long>, long>
+    public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, long>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

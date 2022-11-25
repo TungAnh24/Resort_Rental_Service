@@ -1,4 +1,4 @@
-﻿using ResortRental.Domain;
+﻿using Resort_Rental.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
