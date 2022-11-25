@@ -24,38 +24,61 @@ var connectionStr = config.GetConnectionString("default");
 builder.Services.AddControllers();
 // Learn more about confiInvalidOperationException: Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbSet`1[ResortRental.Domain.Entity.Room]' while attempting to activate 'Resort_Rental.Repository.RepositoryBase.BaseRepository`2[ResortRental.Domain.Entity.Room,System.Int64]'.guring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options => {
-    options.AddSecurityDefinition("cedar01",
-        new OpenApiSecurityScheme()
-        {
-            Description = "Authorization header, using prefix \"Bearer {token}\"",
-            In = ParameterLocation.Header,
-            Name = "Authorization",
-            Type = SecuritySchemeType.ApiKey,
-            Scheme = "Bearer"
-        });
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
-builder.Services.AddDbContext<ApplicationDbContext>(option =>
-{
-    option.UseMySql(connectionStr, ServerVersion.AutoDetect(connectionStr));
-    option.EnableSensitiveDataLogging();
-});
+
+
 builder.Services.AddIdentity<AppUser, AppRole>()
        .AddEntityFrameworkStores<ApplicationDbContext>()
        .AddDefaultTokenProviders();
 
 //Register Jwt Authentication Service:
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(op => {
-    op.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication()
+       .AddJwtBearer(op => {
+           op.SaveToken = true;
+           op.TokenValidationParameters = new TokenValidationParameters
+           {
+               ValidateIssuer           = false,
+               ValidateAudience         = false,
+               IssuerSigningKey         = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:key"])),
+               ValidateIssuerSigningKey = true
+           };
+       });
+
+builder.Services.AddSwaggerGen(options => {
+    
+    OpenApiSecurityScheme securityDefinition = new OpenApiSecurityScheme()
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = config["Jwt:Audience"],
-        ValidIssuer = config["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
+        Name         = "Bearer",
+        BearerFormat = "JWT",
+        Scheme       = "bearer",
+        Description  = "Specify the authorization token.",
+        In           = ParameterLocation.Header,
+        Type         = SecuritySchemeType.Http,
     };
+    options.AddSecurityDefinition("jwt_auth", securityDefinition);
+
+// Make sure swagger UI requires a Bearer token specified
+    OpenApiSecurityScheme securityScheme = new OpenApiSecurityScheme()
+    {
+        Reference = new OpenApiReference()
+        {
+            Id   = "jwt_auth",
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    OpenApiSecurityRequirement securityRequirements = new OpenApiSecurityRequirement()
+    {
+        {securityScheme, new string[] { }},
+    };
+    options.AddSecurityRequirement(securityRequirements);
+    
+    //options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+builder.Services.AddDbContext<ApplicationDbContext>(option => {
+    option.UseMySql(connectionStr, ServerVersion.AutoDetect(connectionStr));
+    option.EnableSensitiveDataLogging();
+});
+
 
 builder.Services.AddHttpContextAccessor();
 
@@ -91,4 +114,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

@@ -7,11 +7,12 @@ using ResortRental.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Resort_Rental.Controllers
 {
     [ApiController]
-    [Route("authen")]
+    [Route("authen")][Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AuthenController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -23,7 +24,7 @@ namespace Resort_Rental.Controllers
             _configuaration = configuaration;
         }
         [HttpPost]
-        [Route("Login")]
+        [Route("Login")][AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginJwtDto loginDTO)
         {
             var user = await _userManager.FindByNameAsync(loginDTO.Username);
@@ -40,11 +41,12 @@ namespace Resort_Rental.Controllers
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
                 var authSigningKey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuaration["Jwt:Key"]));
+                    Encoding.UTF8.GetBytes(_configuaration.GetSection("Jwt:key").Value!));
                 // Tạo Token
                 var token = new JwtSecurityToken(
-                    issuer: _configuaration["Jwt:Issuer"],
-                    audience: _configuaration["Jwt:Audience"],
+                    // issuer: _configuaration["Jwt:Issuer"],
+                    // audience: _configuaration["Jwt:Audience"],
+                    expires: DateTime.Now.AddDays(1),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
@@ -58,7 +60,7 @@ namespace Resort_Rental.Controllers
             return Unauthorized();
         }
         [HttpPost]
-        [Route("register")]
+        [Route("register")][AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterJwtDto registerDTO)
         {
             var userExists = await _userManager.FindByNameAsync(registerDTO.Username);
@@ -80,6 +82,15 @@ namespace Resort_Rental.Controllers
                     new ResponseJwtDto { Status = "Lỗi", Message = "Lỗi tạo tài khoản" });
             }
             return Ok(new ResponseJwtDto { Status = "Thành công", Message = "User được tạo thành công!" });
+        }
+
+        [HttpGet(template: "get-user")]
+        
+        public ActionResult<object> FindUser()
+        {
+            var username = HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            var token = HttpContext.Request.Headers["Authorization"].ToString();
+            return new { username, token };
         }
     }
 }

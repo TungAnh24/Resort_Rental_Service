@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ResortRental.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ResortRental.Domain.Entities;
 
 namespace Resort_Rental.Repository.DataContext
 {
