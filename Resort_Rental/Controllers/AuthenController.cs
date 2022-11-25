@@ -44,8 +44,8 @@ namespace Resort_Rental.Controllers
                     Encoding.UTF8.GetBytes(_configuaration["Jwt:Key"]));
                 // Tạo Token
                 var token = new JwtSecurityToken(
-                    /*issuer: _configuaration["Jwt:Issuer"],
-                    audience: _configuaration["Jwt:Audience"],*/
+                    issuer: _configuaration["Jwt:Issuer"],
+                    audience: _configuaration["Jwt:Audience"],
                     expires: expires,
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
