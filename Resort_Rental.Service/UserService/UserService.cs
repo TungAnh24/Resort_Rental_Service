@@ -10,32 +10,40 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Resort_Rental.Service.UserService
 {
     public class UserService : IUserService
     {
         private readonly IBaseRepository<AppUser, long> _repository;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
 
-        public UserService(IBaseRepository<AppUser, long> repository, IMapper mapper, IHttpContextAccessor httpContext)
+        public UserService(IBaseRepository<AppUser, long> repository, UserManager<AppUser> userManager, IMapper mapper, IHttpContextAccessor httpContext)
         {
             _repository = repository;
+            _userManager = userManager;
             _mapper = mapper;
             _httpContext = httpContext;
         }
 
         public async Task<IEnumerable<UserDto>> GetUsers()
         {
-            var users = await _repository.GetAll();
+            var users = await _userManager.Users.Where(x => x.IsDelete == 0).ToListAsync();
+
             var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
+
             return usersDto;
         }
-        public async Task<UserDto?> GetUser(long userId)
+        public async Task<UserDto> GetUser(long userId)
         {
-            var user = await _repository.FindById(userId);
+            var user = await _userManager.FindByIdAsync($"{userId}");
+
             var userDto = _mapper.Map<UserDto>(user);
+
             return userDto;
         }
 
@@ -43,10 +51,12 @@ namespace Resort_Rental.Service.UserService
         {
             var user = _mapper.Map<AppUser>(userDTO);
 
-            var userName_exists = await _repository.IsExist(u => u.UserName== user.UserName || u.UserName.Contains(user.UserName));
-            if (userName_exists) throw new Exception("User name already exists");
+            var userName_exists = await _userManager.FindByNameAsync(user.UserName);
+
+            if (userName_exists != null) throw new Exception("User name already exists");
 
             var creator = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+
             if (_httpContext.HttpContext != null)
             {
                 user.CreatedByUser = creator;
@@ -54,7 +64,7 @@ namespace Resort_Rental.Service.UserService
                 user.IsDelete = 0;
             }
 
-            await _repository.InsertAsnyc(user);
+            await _userManager.CreateAsync(user, user.PasswordHash);
         }
 
         public async Task Update(UserDto userDTO)
@@ -62,13 +72,14 @@ namespace Resort_Rental.Service.UserService
             var user = _mapper.Map<AppUser>(userDTO);
 
             var updater = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+
             if (_httpContext.HttpContext != null)
             {
                 user.UpdatedByUser = updater;
                 user.LastUpdateTime = DateTime.Now;
             }
 
-            await _repository.UpdateAsnyc(user);
+            await _userManager.UpdateAsync(user);
         }
 
         public async Task Delete(long userId)
@@ -80,7 +91,7 @@ namespace Resort_Rental.Service.UserService
                 var userDto = _mapper.Map<UserDto>(userExists);
                 await Update(userDto);
                 userExists.IsDelete= 1;
-                await _repository.DeleteAsnyc(userExists);
+                await _userManager.DeleteAsync(userExists);
             }
         }
     }

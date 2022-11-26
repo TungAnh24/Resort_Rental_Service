@@ -27,14 +27,20 @@ namespace Resort_Rental.Service.ServiceManager
 
         public async Task<IEnumerable<ServiceDto>> GetServices()
         {
-            var service = await _repository.GetAll();
-            var servicesDto = _mapper.Map<IEnumerable<ServiceDto>>(service);
+            var services = await _repository.GetAll();
+
+            var result = services.Where( x => x.IsDelete == 0).ToList();
+
+            var servicesDto = _mapper.Map<IEnumerable<ServiceDto>>(result);
+
             return servicesDto;
         }
         public async Task<ServiceDto> GetService(long serviceId)
         {
             var service = await _repository.FindById(serviceId);
+
             var serviceDto = _mapper.Map<ServiceDto>(service);
+
             return serviceDto;
         }
 
@@ -55,6 +61,7 @@ namespace Resort_Rental.Service.ServiceManager
                 service.CreationTime = DateTime.Now;
                 service.IsDelete = 0;
             }
+
             await _repository.InsertAsnyc(service);
         }
 
@@ -63,17 +70,20 @@ namespace Resort_Rental.Service.ServiceManager
             var service = _mapper.Map<Domain.Entities.Service>(serviceDto);
 
             var updater = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+
             if (_httpContext.HttpContext != null)
             {
                 service.UpdatedByUser= updater;
                 service.LastUpdateTime = DateTime.Now;
             }
+
             await _repository.UpdateAsnyc(service);
         }
 
         public async Task Delete(long serviceId)
         {
             var serviceExists = await _repository.FindById(serviceId);
+
             if (serviceExists != null)
             {
                 var serviceDto = _mapper.Map<ServiceDto>(serviceExists);

@@ -5,7 +5,7 @@ using Resort_Rental.Service.UserService;
 
 namespace Resort_Rental.Controllers
 {
-    [Authorize]
+    /*[Authorize]*/
     [ApiController]
     [Route("resort-manager/user")]
     public class UserController : ControllerBase

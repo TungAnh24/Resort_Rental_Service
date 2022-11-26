@@ -9,10 +9,10 @@ namespace Resort_Rental.Service.GuestService
 {
     public interface IGuestService
     {
-        Task<IEnumerable<GuestDto>> GetGuests();
-        Task<GuestDto> GetGuest(long guestId);
-        Task Create(GuestDto guestDto);
-        Task Update(GuestDto guestDto);
+        Task<IEnumerable<UserDto>> GetGuests();
+        Task<UserDto> GetGuest(long guestId);
+        Task Create(UserDto guestDto);
+        Task Update(UserDto guestDto);
         Task Delete(long guestId);
     }
 }

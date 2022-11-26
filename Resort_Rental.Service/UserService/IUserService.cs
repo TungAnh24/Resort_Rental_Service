@@ -12,7 +12,7 @@ namespace Resort_Rental.Service.UserService
     public interface IUserService
     {
         Task<IEnumerable<UserDto>> GetUsers();
-        Task<UserDto?> GetUser(long userId);
+        Task<UserDto> GetUser(long userId);
         Task Create(UserDto user);
         Task Update(UserDto userDto);
         Task Delete(long userId);
