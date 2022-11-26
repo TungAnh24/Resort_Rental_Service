@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Resort_Rental.Domain.Dtos;
@@ -7,7 +8,7 @@ using ResortRental.Domain.Entities;
 
 namespace Resort_Rental.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     public class RoomController : ControllerBase
     {
@@ -19,7 +20,7 @@ namespace Resort_Rental.Controllers
 
         [HttpGet]
         [Route("resort_manager/rooms")]
-        [AllowAnonymous]
+
         public async Task<IActionResult> GetRooms()
         {
             var rooms = await _roomService.GetRooms();
