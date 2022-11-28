@@ -14,7 +14,6 @@ namespace Resort_Rental.Domain.Dtos
         public string ContractNumber { get; set; } = string.Empty;
         public double Price { get; set; }
         public string FileLocation { get; set; } = string.Empty;
-        public int Status { get; set; }
         public long roomId { get; set; }
         public long userId { get; set; }
         public string RoomNumber { get; set; } = string.Empty;

@@ -38,8 +38,6 @@ namespace Resort_Rental.Service.ContractService
 
         public async Task<IEnumerable<ContractDto>> GetAllAsync()
         {
-            var a = await _context.Contracts.Include(x => x.Room).SingleOrDefaultAsync();
-
             var listContracts = _repository.GetAll().Include(x => x.Room).Include(x => x.User);
 
             var result = listContracts.Where(x => x.IsDelete == 0).ToList();
@@ -51,7 +49,7 @@ namespace Resort_Rental.Service.ContractService
 
         public async Task<ContractDto> GetContractAsync(long contractid)
         {
-            var a = await _context.Contracts.Include(x => x.Room).SingleOrDefaultAsync(x => x.Id == contractid);
+            var a = await _context.Contracts.Include(x => x.Room).Include(x => x.User).SingleOrDefaultAsync(x => x.Id == contractid);
             var contract = await _repository.FindById(contractid);
             var contractDto = _mapper.Map<ContractDto>(contract);
             return contractDto;
@@ -63,22 +61,24 @@ namespace Resort_Rental.Service.ContractService
 
             var contractNumber_exists = _repository.IsExist(x => x.ContractNumber.Contains(contract.ContractNumber) || x.ContractNumber == contract.ContractNumber);
 
-            /*if (contractNumber_exists != null) throw new Exception("Contract number is alread exists.");*/
 
             var creator = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
 
-            /*var createRoom = _roomService.GetRoom();*/
+            if (creator != null) contract.CreatedByUser = creator;  
+            
             var room = await _repositoryRoom.FindById(contractDto.roomId);
-            var user = await _repositoryUser.FindById(contractDto.userId);
-            contract.Room = room;
-            contract.User = user;
 
-            if (_httpContext.HttpContext != null)
-            {
-                contract.CreationTime = DateTime.Now;
-                contract.CreatedByUser = creator;
-                contract.IsDelete = 0;
-            }
+            if (room == null) throw new Exception("Room not found");
+            else contract.Room = room;
+
+            var user = await _repositoryUser.FindById(contractDto.userId);
+
+            if (user == null) throw new Exception("User not found");
+            else contract.User= user;
+
+            contract.CreationTime = DateTime.Now;
+
+            contract.IsDelete = 0;
 
             await _repository.InsertAsnyc(contract);
         }
@@ -88,12 +88,19 @@ namespace Resort_Rental.Service.ContractService
             var contract = _mapper.Map<Contract>(contractDto);
 
             var updater = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
+            if(updater != null) contract.UpdatedByUser = updater;
 
-            if (_httpContext.HttpContext != null)
-            {
-                contract.LastUpdateTime = DateTime.Now;
-                contract.UpdatedByUser = updater;
-            }
+            var room = await _repositoryRoom.FindById(contractDto.roomId);
+
+            if (room == null) throw new Exception("Room not found");
+            else contract.Room = room;
+
+            var user = await _repositoryUser.FindById(contractDto.userId);
+
+            if (user == null) throw new Exception("User not found");
+            else contract.User = user;
+
+            contract.LastUpdateTime = DateTime.Now;
 
             await _repository.UpdateAsnyc(contract);
         }

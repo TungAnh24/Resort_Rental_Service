@@ -26,7 +26,7 @@ namespace Resort_Rental.Service.RoomService
             _httpContext = httpContext;
         }
 
-        public Task<IEnumerable<RoomDto>> GetRooms()
+        public async Task<IEnumerable<RoomDto>> GetRooms()
         {
             var rooms = _repository.GetAll();
 
@@ -34,7 +34,7 @@ namespace Resort_Rental.Service.RoomService
 
             var roomsDto = _mapper.Map<IEnumerable<RoomDto>>(result);
 
-            return (Task<IEnumerable<RoomDto>>)roomsDto;
+            return roomsDto;
         }
         public async Task<RoomDto?> GetRoom(long roomId)
         {
@@ -92,14 +92,6 @@ namespace Resort_Rental.Service.RoomService
                 roomExists.IsDelete = 1;
                 await _repository.DeleteAsnyc(roomExists);
             }
-        }
-
-        public Task<string> FindByName(string roomNumber)
-        {
-            /*var result = await _repository.GetAll().Result.Any(x => x.RoomNumber == roomNumber || x.RoomNumber.Contains(roomNumber));
-
-            return result;*/
-            return null;
         }
     }
 }

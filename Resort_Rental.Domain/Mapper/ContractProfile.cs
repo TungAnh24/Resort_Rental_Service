@@ -18,15 +18,13 @@ namespace Resort_Rental.Domain.Mapper
                 .ForMember(dest => dest.ContractNumber, conf => conf.MapFrom(x => x.ContractNumber))
                 .ForMember(dest => dest.Price, conf => conf.MapFrom(x => x.Price))
                 .ForMember(dest => dest.FileLocation, conf => conf.MapFrom(x => x.FileLocation))
-                .ForMember(dest => dest.Status, conf => conf.MapFrom(x => x.Status))
                 .ForPath(dest => dest.RoomNumber, conf => conf.MapFrom(x => x.Room.RoomNumber))
                 .ForPath(dest => dest.UserName, conf => conf.MapFrom(x => x.User.UserName));
             CreateMap<ContractDto, Contract>()
                 .ForMember(dest => dest.Id, conf => conf.MapFrom(x => x.Id))
                 .ForMember(dest => dest.ContractNumber, conf => conf.MapFrom(x => x.ContractNumber))
                 .ForMember(dest => dest.Price, conf => conf.MapFrom(x => x.Price))
-                .ForMember(dest => dest.FileLocation, conf => conf.MapFrom(x => x.FileLocation))
-                .ForMember(dest => dest.Status, conf => conf.MapFrom(x => x.Status));
+                .ForMember(dest => dest.FileLocation, conf => conf.MapFrom(x => x.FileLocation));
         }
     }
 }

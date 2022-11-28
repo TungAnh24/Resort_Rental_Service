@@ -15,7 +15,5 @@ namespace Resort_Rental.Service.RoomService
         Task Create(RoomDto roomDto);
         Task Update(RoomDto roomDto);
         Task Delete(long roomId);
-
-        Task<string> FindByName(string roomNumber);
     }
 }
