@@ -11,8 +11,8 @@ using Resort_Rental.Repository.DataContext;
 namespace Resort_Rental.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221124072630_init")]
-    partial class init
+    [Migration("20221127131557_udpate_db")]
+    partial class udpate_db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,7 +147,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.AppUser", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.AppUser", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,7 +231,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.Bill", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.Bill", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,19 +286,14 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ContractId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Bill");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.BillDetail", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.BillDetail", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -358,7 +353,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("BillDetail");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.Contract", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.Contract", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -394,7 +389,7 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("double")
                         .HasColumnOrder(6);
 
-                    b.Property<long>("RoomId")
+                    b.Property<long?>("RoomId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Status")
@@ -405,7 +400,7 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -417,12 +412,15 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("Contract");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.ContractDetail", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.ContractDetail", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasColumnOrder(0);
+
+                    b.Property<long>("AppUserId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("ContractId")
                         .HasColumnType("bigint");
@@ -434,9 +432,6 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnOrder(1);
-
-                    b.Property<long>("GuestId")
-                        .HasColumnType("bigint");
 
                     b.Property<int>("IsDelete")
                         .HasColumnType("int");
@@ -455,73 +450,14 @@ namespace Resort_Rental.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContractId");
+                    b.HasIndex("AppUserId");
 
-                    b.HasIndex("GuestId");
+                    b.HasIndex("ContractId");
 
                     b.ToTable("ContractDetail");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.Guest", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnOrder(0);
-
-                    b.Property<string>("CitizenId")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(6);
-
-                    b.Property<string>("CreatedByUser")
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
-
-                    b.Property<DateTime?>("CreationTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnOrder(7);
-
-                    b.Property<string>("Fullname")
-                        .IsRequired()
-                        .HasColumnType("varchar(70)")
-                        .HasColumnOrder(5);
-
-                    b.Property<int>("IsDelete")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastUpdateTime")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(8);
-
-                    b.Property<string>("Picture")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasColumnOrder(9);
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnOrder(10);
-
-                    b.Property<string>("UpdatedByUser")
-                        .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Guest");
-                });
-
-            modelBuilder.Entity("ResortRental.Domain.Entities.Room", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.Room", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -582,7 +518,7 @@ namespace Resort_Rental.Repository.Migrations
                     b.ToTable("Room");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.Service", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.Service", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -638,7 +574,7 @@ namespace Resort_Rental.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<long>", b =>
                 {
-                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                    b.HasOne("Resort_Rental.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -647,7 +583,7 @@ namespace Resort_Rental.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<long>", b =>
                 {
-                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                    b.HasOne("Resort_Rental.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -662,7 +598,7 @@ namespace Resort_Rental.Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                    b.HasOne("Resort_Rental.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -671,41 +607,33 @@ namespace Resort_Rental.Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
-                    b.HasOne("ResortRental.Domain.Entities.AppUser", null)
+                    b.HasOne("Resort_Rental.Domain.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.Bill", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.Bill", b =>
                 {
-                    b.HasOne("ResortRental.Domain.Entities.Contract", "Contract")
+                    b.HasOne("Resort_Rental.Domain.Entities.Contract", "Contract")
                         .WithMany()
                         .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ResortRental.Domain.Entities.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Contract");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.BillDetail", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.BillDetail", b =>
                 {
-                    b.HasOne("ResortRental.Domain.Entities.Bill", "Bill")
+                    b.HasOne("Resort_Rental.Domain.Entities.Bill", "Bill")
                         .WithMany()
                         .HasForeignKey("BillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ResortRental.Domain.Entities.Service", "Service")
+                    b.HasOne("Resort_Rental.Domain.Entities.Service", "Service")
                         .WithMany()
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -716,42 +644,38 @@ namespace Resort_Rental.Repository.Migrations
                     b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.Contract", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.Contract", b =>
                 {
-                    b.HasOne("ResortRental.Domain.Entities.Room", "Room")
+                    b.HasOne("Resort_Rental.Domain.Entities.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoomId");
 
-                    b.HasOne("ResortRental.Domain.Entities.AppUser", "User")
+                    b.HasOne("Resort_Rental.Domain.Entities.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Room");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("ResortRental.Domain.Entities.ContractDetail", b =>
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.ContractDetail", b =>
                 {
-                    b.HasOne("ResortRental.Domain.Entities.Contract", "Contract")
+                    b.HasOne("Resort_Rental.Domain.Entities.AppUser", "AppUser")
+                        .WithMany()
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Resort_Rental.Domain.Entities.Contract", "Contract")
                         .WithMany()
                         .HasForeignKey("ContractId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ResortRental.Domain.Entities.Guest", "Guest")
-                        .WithMany()
-                        .HasForeignKey("GuestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("AppUser");
 
                     b.Navigation("Contract");
-
-                    b.Navigation("Guest");
                 });
 #pragma warning restore 612, 618
         }

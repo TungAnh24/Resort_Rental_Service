@@ -62,9 +62,9 @@ namespace Resort_Rental.Repository.RepositoryBase
             return entity;
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public IQueryable<T> GetAll()
         {
-            var entities = await _dbSet.ToListAsync();
+            var entities =  _dbSet;
             return entities;
         }
 

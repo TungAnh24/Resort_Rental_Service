@@ -75,36 +75,6 @@ namespace Resort_Rental.Repository.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Guest",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    CreationTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    LastUpdateTime = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    CreatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    UpdatedByUser = table.Column<string>(type: "varchar(20)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Fullname = table.Column<string>(type: "varchar(70)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    CitizenId = table.Column<string>(type: "varchar(20)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Phone = table.Column<string>(type: "varchar(20)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Picture = table.Column<string>(type: "varchar(255)", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    IsDelete = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Guest", x => x.Id);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Room",
                 columns: table => new
                 {
@@ -341,18 +311,11 @@ namespace Resort_Rental.Repository.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     ContractId = table.Column<long>(type: "bigint", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
                     IsDelete = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Bill", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bill_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bill_Contract_ContractId",
                         column: x => x.ContractId,
@@ -376,22 +339,22 @@ namespace Resort_Rental.Repository.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Role = table.Column<int>(type: "int", nullable: false),
                     ContractId = table.Column<long>(type: "bigint", nullable: false),
-                    GuestId = table.Column<long>(type: "bigint", nullable: false),
+                    AppUserId = table.Column<long>(type: "bigint", nullable: false),
                     IsDelete = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ContractDetail", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ContractDetail_Contract_ContractId",
-                        column: x => x.ContractId,
-                        principalTable: "Contract",
+                        name: "FK_ContractDetail_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ContractDetail_Guest_GuestId",
-                        column: x => x.GuestId,
-                        principalTable: "Guest",
+                        name: "FK_ContractDetail_Contract_ContractId",
+                        column: x => x.ContractId,
+                        principalTable: "Contract",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -479,11 +442,6 @@ namespace Resort_Rental.Repository.Migrations
                 column: "ContractId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bill_UserId",
-                table: "Bill",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BillDetail_BillId",
                 table: "BillDetail",
                 column: "BillId");
@@ -504,14 +462,14 @@ namespace Resort_Rental.Repository.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ContractDetail_AppUserId",
+                table: "ContractDetail",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ContractDetail_ContractId",
                 table: "ContractDetail",
                 column: "ContractId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ContractDetail_GuestId",
-                table: "ContractDetail",
-                column: "GuestId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -545,9 +503,6 @@ namespace Resort_Rental.Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "Service");
-
-            migrationBuilder.DropTable(
-                name: "Guest");
 
             migrationBuilder.DropTable(
                 name: "Contract");

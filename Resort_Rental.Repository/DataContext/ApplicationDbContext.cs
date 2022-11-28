@@ -26,7 +26,6 @@ namespace Resort_Rental.Repository.DataContext
         public DbSet<BillDetail> BillDetails { get; set; } = null!;
         public DbSet<Contract> Contracts { get; set; } = null!;
         public DbSet<ContractDetail> ContractDetails { get; set; } = null!;
-        public DbSet<Guest> Guests { get; set; } = null!;
         public DbSet<Room> Rooms { get; set; } = null!;
         public DbSet<Service> Services { get; set; } = null!;
        

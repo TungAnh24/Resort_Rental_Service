@@ -96,7 +96,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddAutoMapper(typeof(RoomProfiles).Assembly);
 builder.Services.AddAutoMapper(typeof(UserProfiles).Assembly);
-builder.Services.AddAutoMapper(typeof(GuestProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(ContractProfile).Assembly);
 
 #region Register Dependency Injection

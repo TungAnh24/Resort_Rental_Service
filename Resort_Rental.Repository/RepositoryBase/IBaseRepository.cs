@@ -16,7 +16,7 @@ namespace Resort_Rental.Repository.RepositoryBase
         Task DeleteAsnyc(T entity);
         Task DeleteAll(IEnumerable<T> entities);
         Task<T?> FindById(Key id);
-        Task<IEnumerable<T>> GetAll();
+        IQueryable<T> GetAll();
         Task<bool> IsExist(Expression<Func<T, bool>> predicate);
     }
 }

@@ -20,8 +20,8 @@ namespace Resort_Rental.Domain.Entities
         [Column(Order = 8)]
         public int Status { get; set; }
         [Column(Order = 9)]
-        public virtual Room Room { get; set; } = new();
+        public virtual Room? Room { get; set; }
         [Column(Order = 10)]
-        public virtual AppUser User { get; set; } = new(); 
+        public virtual AppUser? User { get; set; }
     }
 }

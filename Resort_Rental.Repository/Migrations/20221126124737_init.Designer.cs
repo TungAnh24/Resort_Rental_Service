@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Resort_Rental.Repository.DataContext;
 
@@ -10,9 +11,10 @@ using Resort_Rental.Repository.DataContext;
 namespace Resort_Rental.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221126124737_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -387,7 +389,7 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("double")
                         .HasColumnOrder(6);
 
-                    b.Property<long?>("RoomId")
+                    b.Property<long>("RoomId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Status")
@@ -398,7 +400,7 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("varchar(20)")
                         .HasColumnOrder(4);
 
-                    b.Property<long?>("UserId")
+                    b.Property<long>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -646,11 +648,15 @@ namespace Resort_Rental.Repository.Migrations
                 {
                     b.HasOne("Resort_Rental.Domain.Entities.Room", "Room")
                         .WithMany()
-                        .HasForeignKey("RoomId");
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Resort_Rental.Domain.Entities.AppUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Room");
 

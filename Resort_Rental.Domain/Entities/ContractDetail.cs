@@ -15,6 +15,6 @@ namespace Resort_Rental.Domain.Entities
         [Column(Order = 6)]
         public virtual Contract Contract { get; set; } = new();
         [Column(Order = 7)]
-        public virtual Guest Guest { get; set; } = new();
+        public virtual AppUser AppUser { get; set; } = new();
     }
 }

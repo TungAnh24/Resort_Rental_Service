@@ -13,7 +13,9 @@ namespace Resort_Rental.Domain.Mapper
     {
         public UserProfiles()
         {
-            CreateMap<AppUser, UserDto>();
+            CreateMap<AppUser, UserDto>()
+                .ForMember(dest => dest.Email, conf => conf.MapFrom(u => u.Email))
+                .ForMember(dest => dest.Password, conf => conf.MapFrom(u => u.PasswordHash));
             CreateMap<UserDto, AppUser>();
         }
     }

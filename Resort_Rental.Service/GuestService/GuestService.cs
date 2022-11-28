@@ -17,16 +17,14 @@ namespace Resort_Rental.Service.GuestService
 {
     public class GuestService : IGuestService
     {
-        private readonly IBaseRepository<Guest, long> _repository;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
         private readonly ApplicationDbContext _context;
 
-        public GuestService(IBaseRepository<Guest, long> repository, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IHttpContextAccessor httpContext, ApplicationDbContext context)
+        public GuestService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IHttpContextAccessor httpContext, ApplicationDbContext context)
         {
-            _repository = repository;
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
@@ -36,6 +34,7 @@ namespace Resort_Rental.Service.GuestService
 
         public async Task<IEnumerable<UserDto>> GetGuests()
         {
+            /*var emailCustomer = _userManager.FindByEmailAsync()*/
 
             var guests = await _userManager.Users.Where(x => x.IsDelete == 0).ToListAsync();
 
@@ -47,7 +46,7 @@ namespace Resort_Rental.Service.GuestService
                                 where user.IsDelete == 0
                                 where role.Name == "Customer"
                                 select user).ToListAsync();
-
+           
             var guestDtos = _mapper.Map<IEnumerable<UserDto>>(result);
 
             return guestDtos;

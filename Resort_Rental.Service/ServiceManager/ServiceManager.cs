@@ -27,7 +27,7 @@ namespace Resort_Rental.Service.ServiceManager
 
         public async Task<IEnumerable<ServiceDto>> GetServices()
         {
-            var services = await _repository.GetAll();
+            var services = _repository.GetAll();
 
             var result = services.Where( x => x.IsDelete == 0).ToList();
 

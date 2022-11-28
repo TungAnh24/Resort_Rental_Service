@@ -26,15 +26,15 @@ namespace Resort_Rental.Service.RoomService
             _httpContext = httpContext;
         }
 
-        public async Task<IEnumerable<RoomDto>> GetRooms()
+        public Task<IEnumerable<RoomDto>> GetRooms()
         {
-            var rooms = await _repository.GetAll();
+            var rooms = _repository.GetAll();
 
             var result = rooms.Where(r => r.IsDelete == 0).ToList();
 
             var roomsDto = _mapper.Map<IEnumerable<RoomDto>>(result);
 
-            return roomsDto;
+            return (Task<IEnumerable<RoomDto>>)roomsDto;
         }
         public async Task<RoomDto?> GetRoom(long roomId)
         {
@@ -92,6 +92,14 @@ namespace Resort_Rental.Service.RoomService
                 roomExists.IsDelete = 1;
                 await _repository.DeleteAsnyc(roomExists);
             }
+        }
+
+        public Task<string> FindByName(string roomNumber)
+        {
+            /*var result = await _repository.GetAll().Result.Any(x => x.RoomNumber == roomNumber || x.RoomNumber.Contains(roomNumber));
+
+            return result;*/
+            return null;
         }
     }
 }
