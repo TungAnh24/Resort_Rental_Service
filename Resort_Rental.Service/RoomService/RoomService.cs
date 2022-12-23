@@ -66,7 +66,7 @@ namespace Resort_Rental.Service.RoomService
             {
                 room.CreatedByUser = username;
                 room.CreationTime = DateTime.Now;
-                room.AcctualFileUrl = special+ filePath;
+                room.AcctualFileUrl = $"{special}-{file.FileName}";
                 room.Status = 0;
                 room.IsDelete = 0;
             }
