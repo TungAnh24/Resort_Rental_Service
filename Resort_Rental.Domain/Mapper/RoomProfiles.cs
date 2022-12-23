@@ -26,7 +26,9 @@ namespace Resort_Rental.Domain.Mapper
                 .ForMember(dest => dest.LastUpdateTime, conf => conf.MapFrom(room => room.LastUpdateTime))
                 .ForMember(dest => dest.CreatedByUser, conf => conf.MapFrom(room => room.CreatedByUser))
                 .ForMember(dest => dest.UpdatedByUser, conf => conf.MapFrom(room => room.UpdatedByUser));*/
-            CreateMap<Room, RoomDto>();
+            CreateMap<Room, RoomDto>()
+                /*.ForMember(dest => dest.FileUri, conf => conf.MapFrom(room => room.FileUri))*/
+                .ForMember(dest => dest.AcctualFileUrl, conf => conf.MapFrom(room => room.AcctualFileUrl));
             CreateMap<RoomDto, Room>();
         }
     }

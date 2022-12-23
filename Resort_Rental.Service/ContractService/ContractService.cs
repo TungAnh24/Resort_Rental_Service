@@ -38,7 +38,7 @@ namespace Resort_Rental.Service.ContractService
 
         public async Task<IEnumerable<ContractDto>> GetAllAsync()
         {
-            var listContracts = _repository.GetAll().Include(x => x.Room).Include(x => x.User);
+            var listContracts = await _repository.GetAll().Include(x => x.Room).Include(x => x.User).ToListAsync();
 
             var result = listContracts.Where(x => x.IsDelete == 0).ToList();
 
@@ -68,12 +68,12 @@ namespace Resort_Rental.Service.ContractService
             
             var room = await _repositoryRoom.FindById(contractDto.roomId);
 
-            if (room == null) throw new Exception("Room not found");
+            if (room == null) throw new ArgumentNullException(nameof(room));
             else contract.Room = room;
 
             var user = await _repositoryUser.FindById(contractDto.userId);
 
-            if (user == null) throw new Exception("User not found");
+            if (user == null) throw new ArgumentNullException(nameof(user));
             else contract.User= user;
 
             contract.CreationTime = DateTime.Now;

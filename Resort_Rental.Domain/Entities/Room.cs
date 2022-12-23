@@ -11,19 +11,19 @@ namespace Resort_Rental.Domain.Entities
     [Table("Room")]
     public class Room : BaseEntity<long>
     {
-        [Column(TypeName = "varchar(50)", Order = 5)]
+        [Column(TypeName = "varchar(50)", Order = 8)]
         public string RoomNumber { get; set; } = string.Empty;
-        [Column(Order = 6)]
-        public double Price { get; set; }
-        [Column(Order = 7)]
-        public double Square { get; set; }
-        [Column(TypeName = "varchar(255)", Order = 8)]
-        public string Description { get; set; } = string.Empty;
         [Column(Order = 9)]
-        public int ElectricCounter { get; set; }
+        public double Price { get; set; }
         [Column(Order = 10)]
+        public double Square { get; set; }
+        [Column(TypeName = "varchar(255)", Order = 11)]
+        public string Description { get; set; } = string.Empty;
+        [Column(Order = 12)]
+        public int ElectricCounter { get; set; }
+        [Column(Order = 13)]
         public int WaterCounter { get; set; }
-        [Column(Order = 11)]
+        [Column(Order = 14)]
         public int Status { get; set; }
     }
 }

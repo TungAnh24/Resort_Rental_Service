@@ -45,7 +45,7 @@ namespace Resort_Rental.Service.RoomService
             return roomDto;
         }
 
-        public async Task Create(RoomDto roomDto)
+        public async Task Create(RoomDto roomDto, IFormFile file)
         {
             var room = _mapper.Map<Room>(roomDto);
 
@@ -55,10 +55,18 @@ namespace Resort_Rental.Service.RoomService
 
             var username = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
 
+            var special = Guid.NewGuid().ToString();
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"Images\room", special + "-" + file.FileName);
+            using (FileStream ms = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(ms);
+            }
+
             if (_httpContext.HttpContext != null)
             {
                 room.CreatedByUser = username;
                 room.CreationTime = DateTime.Now;
+                room.AcctualFileUrl = special+ filePath;
                 room.Status = 0;
                 room.IsDelete = 0;
             }

@@ -42,8 +42,8 @@ builder.Services.AddAuthentication(options =>
            op.SaveToken = true;
            op.TokenValidationParameters = new TokenValidationParameters
            {
-               ValidateIssuer = true,
-               ValidateAudience = true,
+               ValidateIssuer = false,
+               ValidateAudience = false,
                ValidIssuer = config["Jwt:Issuer"],
                ValidAudience = config["Jwt:Audience"],
                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]))
@@ -62,6 +62,7 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
     };
+    /*options.SwaggerDoc("v1", new OpenApiInfo { Title = "WebUploadFile", Version = "v1" });*/
     options.AddSecurityDefinition("jwt_auth", securityDefinition);
 
     // Make sure swagger UI requires a Bearer token specified
@@ -80,6 +81,20 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityRequirement(securityRequirements);
 
     //options.OperationFilter<SecurityRequirementsOperationFilter>();
+});
+
+// Enable CORS
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:8080",
+                                              "http://localhost:5136")
+                                              .AllowAnyMethod()
+                                              .AllowAnyHeader();
+                      });
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
@@ -116,11 +131,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(MyAllowSpecificOrigins);
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseStaticFiles();
 
 app.Run();

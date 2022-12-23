@@ -15,5 +15,6 @@ namespace Resort_Rental.Domain.Dtos
         public string Phone { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Authority { get; set; } = string.Empty;
+        public long roleId { get; set; }
     }
 }

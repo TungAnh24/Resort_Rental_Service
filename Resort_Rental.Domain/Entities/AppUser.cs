@@ -29,5 +29,6 @@ namespace Resort_Rental.Domain.Entities
         [Column(TypeName = "varchar(20)", Order = 4)]
         public string? UpdatedByUser { get; set; } = string.Empty;
         public int IsDelete { get; set; }
+        public virtual AppRole? AppRole { get; set; }
     }
 }

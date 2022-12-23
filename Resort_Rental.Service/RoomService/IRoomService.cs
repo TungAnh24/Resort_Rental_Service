@@ -1,4 +1,5 @@
-﻿using Resort_Rental.Domain.Dtos;
+﻿using Microsoft.AspNetCore.Http;
+using Resort_Rental.Domain.Dtos;
 using Resort_Rental.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Resort_Rental.Service.RoomService
     {
         Task<IEnumerable<RoomDto>> GetRooms();
         Task<RoomDto?> GetRoom(long roomId);
-        Task Create(RoomDto roomDto);
+        Task Create(RoomDto roomDto, IFormFile file);
         Task Update(RoomDto roomDto);
         Task Delete(long roomId);
     }

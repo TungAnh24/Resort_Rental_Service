@@ -11,11 +11,11 @@ namespace Resort_Rental.Domain.Entities
     [Table("Service")]
     public class Service : BaseEntity<long>
     {
-        [Column(TypeName = "varchar(100)", Order = 5)]
+        [Column(TypeName = "varchar(100)", Order = 8)]
         public string ServiceName { get; set; } = string.Empty;
-        [Column(Order = 6)]
+        [Column(Order = 9)]
         public double Price { get; set; }
-        [Column(Order = 7)]
+        [Column(Order = 10)]
         public string Unit { get; set; } = string.Empty;
     }
 }

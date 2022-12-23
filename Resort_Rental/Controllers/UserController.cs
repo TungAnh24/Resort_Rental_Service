@@ -38,7 +38,7 @@ namespace Resort_Rental.Controllers
         public async Task<IActionResult> CreateUser(UserDto userDTO)
         {
             await _userService.Create(userDTO);
-            return Ok();
+            return Ok("Create a successful user.");
         }
 
         [HttpPost]

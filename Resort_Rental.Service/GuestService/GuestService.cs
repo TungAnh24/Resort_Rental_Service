@@ -21,33 +21,29 @@ namespace Resort_Rental.Service.GuestService
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
-        private readonly ApplicationDbContext _context;
 
-        public GuestService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IHttpContextAccessor httpContext, ApplicationDbContext context)
+        public GuestService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IHttpContextAccessor httpContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _mapper = mapper;
             _httpContext = httpContext;
-            _context = context;
         }
 
         public async Task<IEnumerable<UserDto>> GetGuests()
         {
-            /*var emailCustomer = _userManager.FindByEmailAsync()*/
+            var guests = await _userManager.Users.Include(x => x.AppRole).Where(x => x.IsDelete == 0 && x.AppRole.Name.Equals("Customer")).ToListAsync();
 
-            var guests = await _userManager.Users.Where(x => x.IsDelete == 0).ToListAsync();
-
-            var result = await (from user in _context.Users
+            /*var result = await (from user in _context.Users
                                 join userRole in _context.UserRoles
                                 on user.Id equals userRole.UserId
                                 join role in _context.Roles
                                 on user.Id equals role.Id
                                 where user.IsDelete == 0
                                 where role.Name == "Customer"
-                                select user).ToListAsync();
+                                select user).ToListAsync();*/
            
-            var guestDtos = _mapper.Map<IEnumerable<UserDto>>(result);
+            var guestDtos = _mapper.Map<IEnumerable<UserDto>>(guests);
 
             return guestDtos;
         }
@@ -66,19 +62,21 @@ namespace Resort_Rental.Service.GuestService
 
             var guest = _mapper.Map<AppUser>(guestDto);
 
-            var guestExists = await _userManager.FindByNameAsync(guest.Email);
+            var guestExists = await _userManager.FindByEmailAsync(guest.UserName);
 
-            if (guestExists != null) throw new Exception("Guest name is already exists");
             var creator = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
 
+            if (guestExists != null) throw new Exception("Guest name is already exists");
+            var role = await _roleManager.FindByIdAsync($"{guestDto.roleId}");
             if (_httpContext.HttpContext != null)
             {
                 guest.CreatedByUser = creator;
                 guest.CreationTime = DateTime.Now;
+                guest.AppRole = role;
                 guest.IsDelete = 0;
             }
 
-            await _userManager.CreateAsync(guest, guest.PasswordHash);
+            await _userManager.CreateAsync(guest);
         }
 
         public async Task Update(UserDto guestDto)
@@ -109,5 +107,10 @@ namespace Resort_Rental.Service.GuestService
             }
         }
         
+        public async Task<AppRole> GetRoleByName(string roleName) 
+        {
+            var roleNames = await _roleManager.FindByNameAsync(roleName);
+            return roleNames;
+        }
     }
 }

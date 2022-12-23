@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -54,6 +55,10 @@ namespace Resort_Rental.Controllers
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
+                    username = user.UserName,
+                    email = user.Email,
+                    password = user.PasswordHash,
+                    roles = user.AppRole?.Name,
                     expiration = token.ValidTo
                 });
             }

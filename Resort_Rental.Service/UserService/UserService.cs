@@ -17,22 +17,22 @@ namespace Resort_Rental.Service.UserService
 {
     public class UserService : IUserService
     {
-        private readonly IBaseRepository<AppUser, long> _repository;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContext;
 
-        public UserService(IBaseRepository<AppUser, long> repository, UserManager<AppUser> userManager, IMapper mapper, IHttpContextAccessor httpContext)
+        public UserService(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IHttpContextAccessor httpContext)
         {
-            _repository = repository;
             _userManager = userManager;
+            _roleManager = roleManager;
             _mapper = mapper;
             _httpContext = httpContext;
         }
 
         public async Task<IEnumerable<UserDto>> GetUsers()
         {
-            var users = await _userManager.Users.Where(x => x.IsDelete == 0).ToListAsync();
+            var users = await _userManager.Users.Include(x => x.AppRole).Where(x => x.IsDelete == 0).ToListAsync();
 
             var usersDto = _mapper.Map<IEnumerable<UserDto>>(users);
 
@@ -53,18 +53,20 @@ namespace Resort_Rental.Service.UserService
 
             var userName_exists = await _userManager.FindByNameAsync(user.UserName);
 
-            if (userName_exists != null) throw new Exception("User name already exists");
-
             var creator = _httpContext.HttpContext.User.FindFirstValue(ClaimTypes.Name);
 
+            if (userName_exists != null) throw new Exception("User name already exists");
+
+            var role = await _roleManager.FindByIdAsync($"{userDTO.roleId}");
             if (_httpContext.HttpContext != null)
             {
                 user.CreatedByUser = creator;
                 user.CreationTime= DateTime.Now;
+                user.AppRole = role;
                 user.IsDelete = 0;
             }
 
-            await _userManager.CreateAsync(user, user.PasswordHash);
+            await _userManager.CreateAsync(user);
         }
 
         public async Task Update(UserDto userDTO)
@@ -84,7 +86,7 @@ namespace Resort_Rental.Service.UserService
 
         public async Task Delete(long userId)
         {
-            var userExists = await _repository.FindById(userId);
+            var userExists = await _userManager.FindByIdAsync($"{userId}");
 
             if (userExists != null)
             {

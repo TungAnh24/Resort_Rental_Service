@@ -1,4 +1,5 @@
 ﻿using Resort_Rental.Domain.Dtos;
+using Resort_Rental.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Resort_Rental.Service.GuestService
         Task Create(UserDto guestDto);
         Task Update(UserDto guestDto);
         Task Delete(long guestId);
+        Task<AppRole> GetRoleByName(string roleName);
     }
 }

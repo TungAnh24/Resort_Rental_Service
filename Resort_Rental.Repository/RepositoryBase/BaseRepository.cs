@@ -28,7 +28,7 @@ namespace Resort_Rental.Repository.RepositoryBase
 
         public async Task InsertAsnyc(T entity)
         {
-            _dbSet.Add(entity);
+            _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
         }
 

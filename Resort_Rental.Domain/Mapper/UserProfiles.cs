@@ -17,7 +17,7 @@ namespace Resort_Rental.Domain.Mapper
                 .ForMember(dest => dest.Email, conf => conf.MapFrom(u => u.Email))
                 .ForMember(dest => dest.Password, conf => conf.MapFrom(u => u.PasswordHash))
                 .ForMember(dest => dest.Phone, conf => conf.MapFrom(u => u.PhoneNumber))
-                .ForMember(dest => dest.Authority, conf => conf.MapFrom(u => u.PasswordHash));
+                .ForMember(dest => dest.Authority, conf => conf.MapFrom(u => u.AppRole.Name));
             CreateMap<UserDto, AppUser>();
         }
     }

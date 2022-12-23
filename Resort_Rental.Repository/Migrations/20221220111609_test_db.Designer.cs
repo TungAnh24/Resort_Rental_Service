@@ -11,8 +11,8 @@ using Resort_Rental.Repository.DataContext;
 namespace Resort_Rental.Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221127131557_udpate_db")]
-    partial class udpate_db
+    [Migration("20221220111609_test_db")]
+    partial class test_db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -156,6 +156,9 @@ namespace Resort_Rental.Repository.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<long?>("AppRoleId")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("longtext");
@@ -221,6 +224,8 @@ namespace Resort_Rental.Repository.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AppRoleId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -238,53 +243,58 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint")
                         .HasColumnOrder(0);
 
+                    b.Property<string>("AcctualFileUrl")
+                        .HasColumnType("longtext")
+                        .HasColumnOrder(2);
+
                     b.Property<string>("BillNumber")
                         .IsRequired()
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(8);
 
                     b.Property<long>("ContractId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("CreatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Description")
                         .HasColumnType("varchar(255)")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(9);
 
                     b.Property<int>("IsDelete")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
 
                     b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
                     b.Property<string>("Period")
                         .IsRequired()
                         .HasColumnType("varchar(10)")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(10);
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(12);
 
                     b.Property<double>("RentalPrice")
                         .HasColumnType("double")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(11);
 
                     b.Property<int>("Status")
                         .HasColumnType("int")
-                        .HasColumnOrder(10);
+                        .HasColumnOrder(13);
 
                     b.Property<string>("UpdatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.HasKey("Id");
 
@@ -300,49 +310,54 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint")
                         .HasColumnOrder(0);
 
+                    b.Property<string>("AcctualFileUrl")
+                        .HasColumnType("longtext")
+                        .HasColumnOrder(2);
+
                     b.Property<long>("BillId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("CreatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<int>("FirstCounter")
                         .HasColumnType("int")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(9);
 
                     b.Property<int>("IsDelete")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LastCounter")
                         .HasColumnType("int")
                         .HasColumnOrder(7);
 
+                    b.Property<int>("LastCounter")
+                        .HasColumnType("int")
+                        .HasColumnOrder(10);
+
                     b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(11);
 
                     b.Property<long>("ServiceId")
                         .HasColumnType("bigint");
 
                     b.Property<double>("ServicePrice")
                         .HasColumnType("double")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(8);
 
                     b.Property<double>("Subtotal")
                         .HasColumnType("double");
 
                     b.Property<string>("UpdatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.HasKey("Id");
 
@@ -360,45 +375,50 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint")
                         .HasColumnOrder(0);
 
+                    b.Property<string>("AcctualFileUrl")
+                        .HasColumnType("longtext")
+                        .HasColumnOrder(2);
+
                     b.Property<string>("ContractNumber")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(8);
 
                     b.Property<string>("CreatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<string>("FileLocation")
                         .IsRequired()
                         .HasColumnType("varchar(255)")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(10);
 
                     b.Property<int>("IsDelete")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
 
                     b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
                     b.Property<double>("Price")
                         .HasColumnType("double")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(9);
 
                     b.Property<long?>("RoomId")
                         .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("int")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(11);
 
                     b.Property<string>("UpdatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint");
@@ -419,6 +439,10 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint")
                         .HasColumnOrder(0);
 
+                    b.Property<string>("AcctualFileUrl")
+                        .HasColumnType("longtext")
+                        .HasColumnOrder(2);
+
                     b.Property<long>("AppUserId")
                         .HasColumnType("bigint");
 
@@ -427,26 +451,27 @@ namespace Resort_Rental.Repository.Migrations
 
                     b.Property<string>("CreatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<int>("IsDelete")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
 
                     b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
                     b.Property<int>("Role")
                         .HasColumnType("int")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(8);
 
                     b.Property<string>("UpdatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.HasKey("Id");
 
@@ -464,54 +489,59 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint")
                         .HasColumnOrder(0);
 
+                    b.Property<string>("AcctualFileUrl")
+                        .HasColumnType("longtext")
+                        .HasColumnOrder(2);
+
                     b.Property<string>("CreatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("varchar(255)")
-                        .HasColumnOrder(8);
+                        .HasColumnOrder(11);
 
                     b.Property<int>("ElectricCounter")
                         .HasColumnType("int")
-                        .HasColumnOrder(9);
+                        .HasColumnOrder(12);
 
                     b.Property<int>("IsDelete")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
 
                     b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
                     b.Property<double>("Price")
                         .HasColumnType("double")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("RoomNumber")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(8);
 
                     b.Property<double>("Square")
                         .HasColumnType("double")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(10);
 
                     b.Property<int>("Status")
                         .HasColumnType("int")
-                        .HasColumnOrder(11);
+                        .HasColumnOrder(14);
 
                     b.Property<string>("UpdatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.Property<int>("WaterCounter")
                         .HasColumnType("int")
-                        .HasColumnOrder(10);
+                        .HasColumnOrder(13);
 
                     b.HasKey("Id");
 
@@ -525,38 +555,43 @@ namespace Resort_Rental.Repository.Migrations
                         .HasColumnType("bigint")
                         .HasColumnOrder(0);
 
+                    b.Property<string>("AcctualFileUrl")
+                        .HasColumnType("longtext")
+                        .HasColumnOrder(2);
+
                     b.Property<string>("CreatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(3);
+                        .HasColumnOrder(5);
 
                     b.Property<DateTime?>("CreationTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(1);
+                        .HasColumnOrder(3);
 
                     b.Property<int>("IsDelete")
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnOrder(7);
 
                     b.Property<DateTime?>("LastUpdateTime")
                         .HasColumnType("datetime(6)")
-                        .HasColumnOrder(2);
+                        .HasColumnOrder(4);
 
                     b.Property<double>("Price")
                         .HasColumnType("double")
-                        .HasColumnOrder(6);
+                        .HasColumnOrder(9);
 
                     b.Property<string>("ServiceName")
                         .IsRequired()
                         .HasColumnType("varchar(100)")
-                        .HasColumnOrder(5);
+                        .HasColumnOrder(8);
 
                     b.Property<string>("Unit")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnOrder(7);
+                        .HasColumnOrder(10);
 
                     b.Property<string>("UpdatedByUser")
                         .HasColumnType("varchar(20)")
-                        .HasColumnOrder(4);
+                        .HasColumnOrder(6);
 
                     b.HasKey("Id");
 
@@ -612,6 +647,15 @@ namespace Resort_Rental.Repository.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Resort_Rental.Domain.Entities.AppUser", b =>
+                {
+                    b.HasOne("Resort_Rental.Domain.Entities.AppRole", "AppRole")
+                        .WithMany()
+                        .HasForeignKey("AppRoleId");
+
+                    b.Navigation("AppRole");
                 });
 
             modelBuilder.Entity("Resort_Rental.Domain.Entities.Bill", b =>
